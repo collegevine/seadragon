@@ -95,7 +95,7 @@ def build_specific(target, type):
             PATH_COMPILED_FILES,
             "--quiet",
             "--config-file",
-            "../../.babelrc",
+            "../../.babelrc.json",
             "--out-dir",
             PATH_COMPILED_FILES,
         ]
