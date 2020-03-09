@@ -2487,10 +2487,6 @@ var PivotViewer = (Pivot.PivotViewer = function(
     items.forEach(item => {
       _activeItems[item.id] = item
       _activeItemsArr.push(item)
-
-      // FIXME: Workaround for NPE
-      // This should be set in `updateTemplate` but we still get NPE:
-      item.html = []
     })
 
     this.gridView()
@@ -2512,10 +2508,6 @@ var PivotViewer = (Pivot.PivotViewer = function(
       items.forEach(item => {
         _activeItems[item.id] = item
         _activeItemsArr.push(item)
-
-        // FIXME: Workaround for NPE
-        // This should be set in `updateTemplate` but we still get NPE:
-        item.html = []
       })
     })
 
