@@ -363,7 +363,12 @@ var PivotViewer = (Pivot.PivotViewer = function(
       // now prune down the arrays of the HTML representations for that item,
       // to the same length.
       n = source.length
-      item.html.forEach(function(templateArray, index) {
+
+      // FIXME: Investigate NPE related to HTML templates
+      if (!Array.isArray(item.html)) {
+        debugger
+      }
+      ;(item.html || []).forEach(function(templateArray, index) {
         if (templates[index].type === "html") {
           var removed = templateArray.splice(n, templateArray.length - n)
 
@@ -424,7 +429,12 @@ var PivotViewer = (Pivot.PivotViewer = function(
         anythingInserted = true
 
         // make additional copies of the HTML template if necessary
-        item.html.forEach(function(htmlArray, index) {
+
+        // FIXME: Investigate NPE related to HTML templates
+        if (!Array.isArray(item.html)) {
+          debugger
+        }
+        ;(item.html || []).forEach(function(htmlArray, index) {
           if (templates[index].type === "html") {
             var i
             for (i = item.source.length - 1; i > 0; i--) {
@@ -437,6 +447,7 @@ var PivotViewer = (Pivot.PivotViewer = function(
         if (templates[currentTemplateLevel].type === "html") {
           item.html[currentTemplateLevel].forEach(function(node, index) {
             setTransform(node, item.source[index])
+            console.log("addElementToFrontLayer: node:", node)
             addElementToFrontLayer(node)
             node.pvInDom = true
           })
@@ -471,7 +482,16 @@ var PivotViewer = (Pivot.PivotViewer = function(
       for (i = rearrangingItemsArr.length - 1; i >= 0; i--) {
         html = rearrangingItemsArr[i].html[currentTemplateLevel]
         html.forEach(function(domElement) {
-          frontLayer.removeChild(domElement)
+          try {
+            frontLayer.removeChild(domElement)
+          } catch (error) {
+            console.log("rearrangePart3: error:", error)
+            console.log(
+              "rearrangePart3: domElement.innerHTML:",
+              domElement.innerHTML
+            )
+            console.log("rearrangePart3: item:", rearrangingItemsArr[i])
+          }
           domElement.pvInDom = false
         })
         html.splice(1, html.length - 1)
@@ -1521,7 +1541,13 @@ var PivotViewer = (Pivot.PivotViewer = function(
                 // if we're using HTML templates, make sure this item isn't in the DOM for performance.
                 html = item.html[currentTemplateLevel][i]
                 if (html.pvInDom) {
-                  frontLayer.removeChild(html)
+                  // FIXME: Investigate NPE related to HTML templates:
+                  try {
+                    frontLayer.removeChild(html)
+                  } catch (error) {
+                    console.log("updateOnce: error:", error)
+                    console.log("updateOnce: html:", html)
+                  }
                   html.pvInDom = false
                 }
               }

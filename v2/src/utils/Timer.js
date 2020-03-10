@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// All rights reserved. 
+// All rights reserved.
 // BSD License
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -54,6 +54,7 @@ var SDTimer = SD.Timer = new function () {
             try {
                 retVal = cur.callback(cur.arg, now);
             } catch (e) {
+                debugger
                 SDDebug_warn("Exception caught in timer: " + e.message);
             }
             if (!retVal) {

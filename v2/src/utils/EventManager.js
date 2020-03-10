@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// All rights reserved. 
+// All rights reserved.
 // BSD License
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -125,7 +125,7 @@ var SDEventManager = SD.EventManager = function () {
         if (!handlers) {
             return;
         }
-        
+
         // copy the handlers array in case it is modified by one of the handlers
         handlers = handlers.slice(0);
 
@@ -134,6 +134,7 @@ var SDEventManager = SD.EventManager = function () {
             try {
                 handlers[i].apply(window, args);
             } catch (e) {
+                debugger
                 // handler threw an error, ignore, go on to next one
                 SDDebug_warn(e.name + " while executing " + eventName +
                         " handler: " + e.message, e);
