@@ -1961,13 +1961,13 @@ var PivotViewer = (Pivot.PivotViewer = function(
    */
   this.setCenterItem = function(id) {
     if (!hasOwnProperty.call(allItemsById, id)) {
-      throw "setCenterItem: No matching ID found: " + id
+      throw new Error("setCenterItem: No matching ID found: " + id)
     }
     if (!innerTracker.isTracking()) {
-      throw "setCenterItem: Can't execute during rearrange."
+      throw new Error("setCenterItem: Can't execute during rearrange.")
     }
     if (!hasOwnProperty.call(activeItems, id)) {
-      throw "setCenterItem: Item is currently not filtered in."
+      throw new Error("setCenterItem: Item is currently not filtered in.")
     }
     var item = allItemsById[id]
     if (item !== selectedItem) {
@@ -2536,8 +2536,12 @@ var PivotViewer = (Pivot.PivotViewer = function(
    */
   this.setTemplates = function(newTemplates) {
     // we disallow changing the template types while there are items in the view
-    if (items.length || activeItemsArr.length || rearrangingItemsArr.length) {
-      throw "You must set templates before adding items!"
+    if (
+      items.length > 0 ||
+      activeItemsArr.length > 0 ||
+      rearrangingItemsArr.length > 0
+    ) {
+      throw new Error("You must set templates before adding items!")
     }
 
     // note that this does modify the input array
